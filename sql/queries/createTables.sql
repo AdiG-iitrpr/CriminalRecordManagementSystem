@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS Suspect (
 
 CREATE TABLE IF NOT EXISTS Criminal (
     criminal_id VARCHAR(5) PRIMARY KEY,
+    suspect_id INT REFERENCES Suspect(suspect_id),
     first_name VARCHAR(30),
     last_name VARCHAR(30),
     gender gen,
@@ -69,11 +70,11 @@ CREATE TABLE IF NOT EXISTS Criminal (
 
 CREATE TABLE IF NOT EXISTS courtHearing (
     case_id INT,
-    criminal_id VARCHAR(5),
+    suspect_id INT,
     dateofhearing DATE,
     verdict TEXT,
     FOREIGN KEY (case_id) REFERENCES Cases(case_id),
-    FOREIGN KEY (criminal_id) REFERENCES Criminal(criminal_id)
+    FOREIGN KEY (suspect_id) REFERENCES Suspect(suspect_id)
 );
 
 CREATE TABLE IF NOT EXISTS Jail (

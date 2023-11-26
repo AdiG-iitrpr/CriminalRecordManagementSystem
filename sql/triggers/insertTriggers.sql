@@ -1,0 +1,73 @@
+--contact details of suspect --
+
+CREATE OR REPLACE FUNCTION checkContact()
+RETURN TRIGGER AS $$
+    BEGIN
+        IF LENGTH(new.contact) <> 10 THEN
+            RAISE EXCEPTION 'Invalid "contact" length: "%"', new.contact
+            USING HINT = '"contact" length should be exactly equal to 10';
+        ELSIF LENGTH(new.contact) = 0 THEN
+            RAISE EXCEPTION 'Invalid "contact" length: "%"', new.contact
+            USING HINT = '"contact" length should be greater than zero';
+        ELSIF (SELECT new.contact ~ '^[0-9]+$') = false THEN
+            RAISE EXCEPTION 'Invalid "contact" type: "%"', new.contact
+            USING HINT = '"contact" must only contain digits';
+        END IF;
+
+        RETURN new;
+    END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER
+BEFORE INSERT OR UPDATE ON Suspect 
+FOR EACH ROW EXECUTE PROCEDURE checkContact();
+
+
+-- insertion of Criminal (check status in courtHearing)
+
+CREATE OR REPLACE FUNCTION verifySuspect() 
+RETURNS TRIGGER AS $$
+BEGIN 
+    IF EXISTS (
+        SELECT 1
+        FROM courtHearing ch
+        JOIN Cases c ON ch.case_id = c.case_id
+        WHERE ch.suspect_id = NEW.suspect_id AND c.verdict = 'PROVENGUILTY'
+    ) THEN
+        RETURN NEW;
+    ELSE
+        RAISE EXCEPTION 'Cannot insert/update Criminal without valid suspect_id related to a PROVENGUILTY case';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER checkCaseStatus
+BEFORE INSERT OR UPDATE ON Criminal
+FOR EACH ROW
+EXECUTE FUNCTION verifySuspect();
+
+
+-- check if capacity is full or not in jail 
+
+CREATE OR REPLACE FUNCTION checkAvailability() 
+RETURNS TRIGGER AS $$
+BEGIN 
+    IF 
+    IF NOT EXISTS (
+        SELECT 1
+        FROM Jail
+        WHERE Jail.number_of_cells = Jail.number_of_cells_occupied AND Jail.jail_id = new.jail_id
+    ) THEN
+        RETURN new;
+    ELSE
+        RAISE EXCEPTION 'Cannot insert criminal into Jail with jailId (CAPACITY FULL ): "%"',new.jail_id;
+    END IF;
+    RETURN new;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER checkAvailabilityOfCells
+BEFORE INSERT OR UPDATE ON jailLog
+FOR EACH ROW
+EXECUTE FUNCTION checkAvailability();
