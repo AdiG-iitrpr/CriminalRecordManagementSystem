@@ -21,11 +21,11 @@ public class CasesData {
     }
 
     private void caseInformation(){
-
+        
     }
 
     private void dangerousCriminal(){
-        
+
     }
 
     private void caseReporting(){

@@ -22,7 +22,16 @@ public class CriminalData {
     }
 
     private void addCriminalRecord(){
+
         // add criminal Information in Criminal Table using Connection
+        // add case information in Cases Table
+
+        // use attributes for taking input
+
+
+        // officer-in-charge must exist
+        // case must be filed already 
+        // verdict in courtHearing must be 
     }
 
 
