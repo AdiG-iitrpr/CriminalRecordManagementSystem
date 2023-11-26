@@ -55,9 +55,6 @@ public class DatabaseInit {
 
             Connection connection_2 = DriverManager.getConnection(DB_URL_2, USER, PASSWORD);
             System.out.println("Successfully connected to the database: " + DB_URL_2);
-            filePath = new File("").getAbsolutePath() + "/../../sql/queries/createTables.sql";
-            File file = new File(filePath);
-            executeSql(file, connection_2);
 
             init(files, connection_2);
             System.out.println("SQL files executed successfully!");
