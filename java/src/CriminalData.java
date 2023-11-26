@@ -19,21 +19,21 @@ public class CriminalData {
 
     }
 
-    private void fetchCriminalRecord(int criminal_id){
+    private void fetchCriminalRecord(String cid){
         // fetch information from table using connection 
         try{
             Statement stmt = connection.createStatement();
             System.out.println("Fetching records with condition...");
-            String sql = "SELECT * FROM Registration" + " WHERE id >= " + Integer.toString(criminal_id);
+            String sql = "SELECT * FROM criminal WHERE criminal_id = '" + cid + "'";
             ResultSet rs = stmt.executeQuery(sql);
             rs = stmt.executeQuery(sql);
             while(rs.next()){
                 //Display values
-                System.out.print("ID: " + rs.getInt("criminal_id"));
-                System.out.print(", First Name: " + rs.getInt("first_name"));
+                System.out.print("ID: " + rs.getString("criminal_id"));
+                System.out.print(", First Name: " + rs.getString("first_name"));
                 System.out.print(", Last Name: " + rs.getString("last_name"));
-                System.out.println(", Gender: " + rs.getString("gender"));
-                System.out.println(", Address: " + rs.getString("criminal_address"));
+                System.out.print(", Gender: " + rs.getString("gender"));
+                System.out.print(", Address: " + rs.getString("criminal_address"));
                 System.out.println(", District: " + rs.getString("district"));
             }
             rs.close();
@@ -57,7 +57,7 @@ public class CriminalData {
         System.out.println("Enter Last name :");
         String last_name = sc.nextLine();
         System.out.println("Enter gender (M/F) :");
-        char gender = sc.next().charAt(0);
+        String gender = sc.nextLine();
         System.out.println("Enter Criminal Address :");
         String address = sc.nextLine();
         System.out.println("Enter District :");
@@ -67,11 +67,11 @@ public class CriminalData {
         try{
             Statement stmt = connection.createStatement();
             System.out.println("Inserting records into the table...");  
-            String values = "("+criminal_id+","+first_name+","+last_name+","+gender+","+address+","+district+")";
+            String values = "('"+criminal_id+"','"+first_name+"','"+last_name+"','"+gender+"','"+address+"','"+district+"')";
             String sql = "INSERT INTO Criminal (criminal_id, first_name, last_name, gender, criminal_address, district) VALUES " + values;
             stmt.executeUpdate(sql);
             // To be done - Add data to jail log
-            values = "("+Integer.toString(jail_id)+","+criminal_id+")";
+            values = "("+Integer.toString(jail_id)+",'"+criminal_id+"')";
             sql = "INSERT INTO jailLog (jail_id, criminal_id) VALUES " + values;
             stmt.executeUpdate(sql);
             System.out.println("Inserted record into the table...");
@@ -97,7 +97,9 @@ public class CriminalData {
             if(option == 1){
                 addCriminalRecord();
             }else if(option == 2){
-                int criminal_id = cin.nextInt();
+                System.out.println("Enter criminal id : ");
+                cin.nextLine();
+                String criminal_id = cin.nextLine();
                 fetchCriminalRecord(criminal_id);
             }else if(option == 3){
                 System.out.println("Going back to Main dashboard!!");
