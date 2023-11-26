@@ -28,6 +28,7 @@ public class DatabaseInit {
                 roleFile = curFile;
                 continue;
             }
+            
             if (curFile.isDirectory()) {
                 init(curFile.listFiles(), connection);
             } else {
