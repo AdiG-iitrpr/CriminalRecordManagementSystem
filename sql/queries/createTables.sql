@@ -4,19 +4,19 @@ CREATE TYPE case_stat AS ENUM('ACTIVE', 'FILED', 'RUNNING');
 
 CREATE TYPE ver AS ENUM('PENDING', 'PROVENGUILTY', 'INNOCENT', 'REFERRED');
 
-CREATE TABLE district (
+CREATE TABLE IF NOT EXISTS district (
     district VARCHAR(30) PRIMARY KEY,
     officer_in_charge VARCHAR(100)
 );
 
-CREATE TABLE Station (
+CREATE TABLE IF NOT EXISTS Station (
     station_id INT PRIMARY KEY,
     stationAddress VARCHAR(40),
     district VARCHAR(30),
     FOREIGN KEY (district) REFERENCES district(district)
 );
 
-CREATE TABLE Officer (
+CREATE TABLE IF NOT EXISTS Officer (
     officer_id SERIAL PRIMARY KEY,
     firstname VARCHAR(30),
     lastName VARCHAR(30),
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS Cases (
     FOREIGN KEY (OfficerID) REFERENCES Officer(officer_id)
 );
 
-CREATE TABLE FIR (
+CREATE TABLE IF NOT EXISTS FIR (
     fir_id SERIAL PRIMARY KEY,
     incident_Type VARCHAR(40),
     incident_Time TIME,
@@ -48,7 +48,7 @@ CREATE TABLE FIR (
     FOREIGN KEY (station_id) REFERENCES Station(station_id)
 );
 
-CREATE TABLE Suspect (
+CREATE TABLE IF NOT EXISTS Suspect (
     suspect_id SERIAL PRIMARY KEY,
     fir_id INT,
     suspect_name VARCHAR(30),
@@ -57,7 +57,7 @@ CREATE TABLE Suspect (
     FOREIGN KEY (fir_id) REFERENCES FIR(fir_id)
 );
 
-CREATE TABLE Criminal (
+CREATE TABLE IF NOT EXISTS Criminal (
     criminal_id SERIAL PRIMARY KEY,
     first_name VARCHAR(30),
     last_name VARCHAR(30),
@@ -66,16 +66,26 @@ CREATE TABLE Criminal (
     district VARCHAR(30)
 );
 
-CREATE TABLE courtHearing (
+CREATE TABLE IF NOT EXISTS courtHearing (
     case_id INT,
     criminal_id INT,
     dateofhearing DATE,
-    verdict TEXT
-    FOREIGN KEY(case_id) REFERENCES Cases(case_id),FOREIGN KEY (criminal_id) REFERENCES Criminal(criminal_id)
+    verdict TEXT,
+    FOREIGN KEY (case_id) REFERENCES Cases(case_id),
+    FOREIGN KEY (criminal_id) REFERENCES Criminal(criminal_id)
 );
 
 
-CREATE TABLE jailLog (
+CREATE TABLE IF NOT EXISTS Jail (
+    jail_id SERIAL PRIMARY KEY,
+    district VARCHAR(30),
+    jail_admin VARCHAR(40),
+    jail_address VARCHAR(40),
+    number_of_cells INT,
+    FOREIGN KEY (district) REFERENCES district(district)
+);
+
+CREATE TABLE IF NOT EXISTS jailLog (
     jail_id INT,
     prisoner_id INT,
     criminal_id INT,
@@ -83,13 +93,4 @@ CREATE TABLE jailLog (
     DateOfRelease DATE,
     FOREIGN KEY (jail_id) REFERENCES Jail(jail_id),
     FOREIGN KEY (criminal_id) REFERENCES Criminal(criminal_id)
-);
-
-CREATE TABLE Jail (
-    jail_id SERIAL PRIMARY KEY,
-    district VARCHAR(30),
-    jail_admin VARCHAR(40),
-    jail_address VARCHAR(40),
-    number_of_cells INT,
-    FOREIGN KEY (district) REFERENCES district(district)
 );
