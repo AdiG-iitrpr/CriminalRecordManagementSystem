@@ -1,8 +1,10 @@
+
 CREATE TYPE gen AS ENUM ('M','F');
 
 CREATE TYPE case_stat AS ENUM('ACTIVE', 'FILED', 'RUNNING');
 
 CREATE TYPE ver AS ENUM('PENDING', 'PROVENGUILTY', 'INNOCENT', 'REFERRED');
+
 
 CREATE TABLE IF NOT EXISTS district (
     district VARCHAR(30) PRIMARY KEY,
@@ -50,11 +52,10 @@ CREATE TABLE IF NOT EXISTS FIR (
 
 CREATE TABLE IF NOT EXISTS Suspect (
     suspect_id SERIAL PRIMARY KEY,
-    fir_id INT,
+    fir_id INT REFERENCES FIR(fir_id),
     suspect_name VARCHAR(30),
     suspect_address VARCHAR(40),
-    contact BIGINT(10),
-    FOREIGN KEY (fir_id) REFERENCES FIR(fir_id)
+    contact VARCHAR(10)
 );
 
 CREATE TABLE IF NOT EXISTS Criminal (
@@ -63,18 +64,15 @@ CREATE TABLE IF NOT EXISTS Criminal (
     last_name VARCHAR(30),
     gender gen,
     criminal_address VARCHAR(100),
-    district VARCHAR(30)
+    district CHAR(30)
 );
 
 CREATE TABLE IF NOT EXISTS courtHearing (
-    case_id INT,
-    criminal_id INT,
+    case_id INT REFERENCES Cases(case_id),
+    criminal_id INT REFERENCES Criminal(criminal_id),
     dateofhearing DATE,
-    verdict TEXT,
-    FOREIGN KEY (case_id) REFERENCES Cases(case_id),
-    FOREIGN KEY (criminal_id) REFERENCES Criminal(criminal_id)
+    verdict TEXT
 );
-
 
 CREATE TABLE IF NOT EXISTS Jail (
     jail_id SERIAL PRIMARY KEY,
