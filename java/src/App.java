@@ -22,7 +22,7 @@ class App{
 
     private static void checkAuthorization(){
         System.out.println("Enter userName and password :");
-        Scanner cin = new Scanner(System.in);
+        Scanner cin = new Scanner(System.in);// use both as postgres for now
 
         USER = cin.nextLine();
         PASSWORD = cin.nextLine();
