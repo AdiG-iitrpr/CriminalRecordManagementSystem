@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS Suspect (
     fir_id INT,
     suspect_name VARCHAR(30),
     suspect_address VARCHAR(40),
-    contact BIGINT(10),
+    contact CHAR(10),
     FOREIGN KEY (fir_id) REFERENCES FIR(fir_id)
 );
 
