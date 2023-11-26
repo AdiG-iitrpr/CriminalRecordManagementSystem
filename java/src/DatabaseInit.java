@@ -22,7 +22,12 @@ public class DatabaseInit {
     }
 
     static void init(File[] files, Connection connection) {
+        File roleFile = null;
         for (File curFile : files) {
+            if(curFile.getName() == "roles.sql"){
+                roleFile = curFile;
+                continue;
+            }
             if (curFile.isDirectory()) {
                 init(curFile.listFiles(), connection);
             } else {
@@ -30,6 +35,8 @@ public class DatabaseInit {
                 System.out.println("File completed: " + curFile.getName());
             }
         }
+
+        executeSql(roleFile, connection);
     }
 
     public static void main(String[] args) throws IOException {

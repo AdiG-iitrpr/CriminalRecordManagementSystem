@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS Criminal (
     last_name VARCHAR(30),
     gender gen,
     criminal_address VARCHAR(100),
-    district CHAR(30)
+    district VARCHAR(30)
 );
 
 CREATE TABLE IF NOT EXISTS courtHearing (
@@ -95,4 +95,10 @@ CREATE TABLE IF NOT EXISTS jailLog (
     DateOfRelease DATE,
     FOREIGN KEY (jail_id) REFERENCES Jail(jail_id),
     FOREIGN KEY (criminal_id) REFERENCES Criminal(criminal_id)
+);
+
+
+CREATE TABLE IF NOT EXISTS Users(
+    userName VARCHAR(20),
+    role_assigned VARCHAR(15)
 );

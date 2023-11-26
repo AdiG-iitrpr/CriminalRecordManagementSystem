@@ -1,10 +1,12 @@
 import java.io.*;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
+import java.util.concurrent.Callable;
 
 public class CriminalData {
     Connection connection;
@@ -64,16 +66,34 @@ public class CriminalData {
         String district = sc.nextLine();
         System.out.println("Enter Jail ID :");
         int jail_id = sc.nextInt();
+        System.out.println("Enter Case ID :");
+        int caseid = sc.nextInt();
+        System.out.println("Enter the suspect ID :");
+        int suspectid = sc.nextInt();
+
         try{
-            Statement stmt = connection.createStatement();
+            
             System.out.println("Inserting records into the table...");  
-            String values = "('"+criminal_id+"','"+first_name+"','"+last_name+"','"+gender+"','"+address+"','"+district+"')";
-            String sql = "INSERT INTO Criminal (criminal_id, first_name, last_name, gender, criminal_address, district) VALUES " + values;
-            stmt.executeUpdate(sql);
-            // To be done - Add data to jail log
-            values = "("+Integer.toString(jail_id)+",'"+criminal_id+"')";
-            sql = "INSERT INTO jailLog (jail_id, criminal_id) VALUES " + values;
-            stmt.executeUpdate(sql);
+
+            String sql = "{CALL add_criminal(?,?,?,?,?,?,?,?)}";
+            CallableStatement cs = connection.prepareCall(sql);
+
+            cs.setString(1, criminal_id);
+            cs.setString(2, first_name);
+            cs.setString(3, last_name);
+            cs.setString(4, gender);
+            cs.setString(5, address);
+            cs.setString(6, district);
+            cs.setInt(7, caseid);
+            cs.setInt(8, suspectid);
+            cs.execute();
+
+            sql = "{CALL add_jailLog(?,?)}";
+            cs = connection.prepareCall(sql);
+            cs.setInt(1, jail_id);
+            cs.setString(2, criminal_id);
+            cs.execute();
+
             System.out.println("Inserted record into the table...");
         } catch(SQLException e){
             System.err.println(e.getMessage());

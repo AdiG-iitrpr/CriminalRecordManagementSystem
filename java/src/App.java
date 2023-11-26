@@ -6,21 +6,36 @@ import java.util.Scanner;
 
 class App{
 
+    static String userName,pwd;
+
     static final String JDBC_DRIVER = "org.postgresql.Driver";
     static final String DB_URL = "jdbc:postgresql://localhost/crime_record_management_system";
-    static final String USER = "postgres";
-    static final String PASSWORD = "postgres";
+    static String USER = "";
+    static String PASSWORD = "";
 
     private static void display(){
         System.out.println("Choose your options: ");
                 System.out.println("1. Enter the dashboard for information regarding criminals");
                 System.out.println("2. Information regarding case reporting in various districts.");
-                System.out.println("3. Admin Portal");
-                System.out.println("4. Exit");
+                System.out.println("3. Exit");
+    }
+
+    private static void checkAuthorization(){
+        System.out.println("Enter userName and password :");
+        Scanner cin = new Scanner(System.in);
+
+        USER = cin.nextLine();
+        PASSWORD = cin.nextLine();
+
+        cin.close();
+
     }
     public static void main(String [] args){
 
         Scanner cin = new Scanner(System.in);
+
+        checkAuthorization();
+
         try {
             Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             
@@ -39,9 +54,6 @@ class App{
                     CasesData casesData = new CasesData(connection);
                     casesData.runClass();
                 }else if(option == 3){
-                    AdminPortal adminPortal = new AdminPortal(connection);
-                    adminPortal.runClass();
-                }else if(option == 4){
                     break;
                 }else{
                     System.out.println("Wrong input");
