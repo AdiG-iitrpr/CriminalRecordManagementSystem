@@ -50,6 +50,8 @@ public class CriminalData {
 
         // use attributes for taking input
         Scanner sc = new Scanner(System.in);
+        System.out.println("Enter Criminal ID :");
+        String criminal_id = sc.nextLine();
         System.out.println("Enter First name :");
         String first_name = sc.nextLine();
         System.out.println("Enter Last name :");
@@ -60,14 +62,19 @@ public class CriminalData {
         String address = sc.nextLine();
         System.out.println("Enter District :");
         String district = sc.nextLine();
+        System.out.println("Enter Jail ID :");
+        int jail_id = sc.nextInt();
         try{
             Statement stmt = connection.createStatement();
             System.out.println("Inserting records into the table...");  
-            String values = "("+first_name+","+last_name+","+gender+","+address+","+district+")";
-            String sql = "INSERT INTO Criminal (first_name, last_name, gender, criminal_address, district) VALUES " + values;
+            String values = "("+criminal_id+","+first_name+","+last_name+","+gender+","+address+","+district+")";
+            String sql = "INSERT INTO Criminal (criminal_id, first_name, last_name, gender, criminal_address, district) VALUES " + values;
+            stmt.executeUpdate(sql);
+            // To be done - Add data to jail log
+            values = "("+Integer.toString(jail_id)+","+criminal_id+")";
+            sql = "INSERT INTO jailLog (jail_id, criminal_id) VALUES " + values;
             stmt.executeUpdate(sql);
             System.out.println("Inserted record into the table...");
-            // To be done - Add data to jail log
         } catch(SQLException e){
             System.err.println(e.getMessage());
         }
