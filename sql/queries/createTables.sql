@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS jailLog (
     jail_id INT,
     prisoner_id SERIAL,
     criminal_id VARCHAR(5),
-    DateOfConviction DATE,
+    DateOfConviction TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     DateOfRelease DATE,
     FOREIGN KEY (jail_id) REFERENCES Jail(jail_id),
     FOREIGN KEY (criminal_id) REFERENCES Criminal(criminal_id)
