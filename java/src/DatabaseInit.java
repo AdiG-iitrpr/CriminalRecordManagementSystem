@@ -28,7 +28,7 @@ public class DatabaseInit {
                 roleFile = curFile;
                 continue;
             }
-            
+
             if (curFile.isDirectory()) {
                 init(curFile.listFiles(), connection);
             } else {
@@ -37,7 +37,7 @@ public class DatabaseInit {
             }
         }
 
-        executeSql(roleFile, connection);
+        // executeSql(roleFile, connection);
     }
 
     public static void main(String[] args) throws IOException {
