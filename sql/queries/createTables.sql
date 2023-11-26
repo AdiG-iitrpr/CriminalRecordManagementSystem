@@ -82,6 +82,7 @@ CREATE TABLE IF NOT EXISTS Jail (
     jail_admin VARCHAR(40),
     jail_address VARCHAR(40),
     number_of_cells INT,
+    number_of_cells_occupied INT,
     FOREIGN KEY (district) REFERENCES district(district)
 );
 
