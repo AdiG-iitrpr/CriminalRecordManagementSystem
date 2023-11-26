@@ -1,6 +1,8 @@
 import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
@@ -19,6 +21,26 @@ public class CriminalData {
 
     private void fetchCriminalRecord(int criminal_id){
         // fetch information from table using connection 
+        try{
+            Statement stmt = connection.createStatement();
+            System.out.println("Fetching records with condition...");
+            String sql = "SELECT * FROM Registration" + " WHERE id >= " + Integer.toString(criminal_id);
+            ResultSet rs = stmt.executeQuery(sql);
+            rs = stmt.executeQuery(sql);
+            while(rs.next()){
+                //Display values
+                System.out.print("ID: " + rs.getInt("criminal_id"));
+                System.out.print(", First Name: " + rs.getInt("first_name"));
+                System.out.print(", Last Name: " + rs.getString("last_name"));
+                System.out.println(", Gender: " + rs.getString("gender"));
+                System.out.println(", Address: " + rs.getString("criminal_address"));
+                System.out.println(", District: " + rs.getString("district"));
+            }
+            rs.close();
+        } catch(SQLException e){
+            System.err.println(e.getMessage());
+        }
+        return;
     }
 
     private void addCriminalRecord(){
@@ -27,8 +49,30 @@ public class CriminalData {
         // add case information in Cases Table
 
         // use attributes for taking input
-
-
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter First name :");
+        String first_name = sc.nextLine();
+        System.out.println("Enter Last name :");
+        String last_name = sc.nextLine();
+        System.out.println("Enter gender (M/F) :");
+        char gender = sc.next().charAt(0);
+        System.out.println("Enter Criminal Address :");
+        String address = sc.nextLine();
+        System.out.println("Enter District :");
+        String district = sc.nextLine();
+        try{
+            Statement stmt = connection.createStatement();
+            System.out.println("Inserting records into the table...");  
+            String values = "("+first_name+","+last_name+","+gender+","+address+","+district+")";
+            String sql = "INSERT INTO Criminal (first_name, last_name, gender, criminal_address, district) VALUES " + values;
+            stmt.executeUpdate(sql);
+            System.out.println("Inserted record into the table...");
+            // To be done - Add data to jail log
+        } catch(SQLException e){
+            System.err.println(e.getMessage());
+        }
+        sc.close();
+        return;
         // officer-in-charge must exist
         // case must be filed already 
         // verdict in courtHearing must be 
