@@ -2,6 +2,7 @@ import java.io.*;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -35,6 +36,7 @@ public class CriminalData {
                 System.out.print(", First Name: " + rs.getString("first_name"));
                 System.out.print(", Last Name: " + rs.getString("last_name"));
                 System.out.print(", Gender: " + rs.getString("gender"));
+                System.out.print(", Age: " + rs.getString("age"));
                 System.out.print(", Address: " + rs.getString("criminal_address"));
                 System.out.println(", District: " + rs.getString("district"));
             }
@@ -60,6 +62,9 @@ public class CriminalData {
         String last_name = sc.nextLine();
         System.out.println("Enter gender (M/F) :");
         String gender = sc.nextLine();
+        System.out.println("Enter age :");
+        int age = sc.nextInt();
+        sc.nextLine();
         System.out.println("Enter Criminal Address :");
         String address = sc.nextLine();
         System.out.println("Enter District :");
@@ -67,26 +72,27 @@ public class CriminalData {
         System.out.println("Enter Jail ID :");
         int jail_id = sc.nextInt();
         System.out.println("Enter Case ID :");
-        int caseid = sc.nextInt();
+        int case_id = sc.nextInt();
         System.out.println("Enter the suspect ID :");
-        int suspectid = sc.nextInt();
+        int suspect_id = sc.nextInt();
 
         try{
             
             System.out.println("Inserting records into the table...");  
 
-            String sql = "{CALL add_criminal(?,?,?,?,?,?,?,?)}";
+            String sql = "{call add_criminal(?,?,?,?,?,?,?,?,?)}";
             CallableStatement cs = connection.prepareCall(sql);
 
             cs.setString(1, criminal_id);
             cs.setString(2, first_name);
             cs.setString(3, last_name);
             cs.setString(4, gender);
-            cs.setString(5, address);
-            cs.setString(6, district);
-            cs.setInt(7, caseid);
-            cs.setInt(8, suspectid);
-            cs.execute();
+            cs.setInt(5, age);
+            cs.setString(6, address);
+            cs.setString(7, district);
+            cs.setInt(8, case_id);
+            cs.setInt(9, suspect_id);
+            // cs.execute();
 
             sql = "{CALL add_jailLog(?,?)}";
             cs = connection.prepareCall(sql);
@@ -113,12 +119,12 @@ public class CriminalData {
 
             display();
             int option = cin.nextInt();
-
+            cin.nextLine();
             if(option == 1){
                 addCriminalRecord();
             }else if(option == 2){
                 System.out.println("Enter criminal id : ");
-                cin.nextLine();
+                // cin.nextLine();
                 String criminal_id = cin.nextLine();
                 fetchCriminalRecord(criminal_id);
             }else if(option == 3){

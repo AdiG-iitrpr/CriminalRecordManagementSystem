@@ -21,23 +21,51 @@ public class DatabaseInit {
         }
     }
 
-    static void init(File[] files, Connection connection) {
-        File roleFile = null;
-        for (File curFile : files) {
-            if(curFile.getName() == "roles.sql"){
-                roleFile = curFile;
-                continue;
-            }
+    static void init(File[] files, Connection connection, String filePath) {
+        // File roleFile = null;
+        // for (File curFile : files) {
+        //     if(curFile.getName() == "roles.sql"){
+        //         roleFile = curFile;
+        //         continue;
+        //     }
 
-            if (curFile.isDirectory()) {
-                init(curFile.listFiles(), connection);
-            } else {
-                executeSql(curFile, connection);
-                System.out.println("File completed: " + curFile.getName());
-            }
-        }
+        //     if (curFile.isDirectory()) {
+        //         init(curFile.listFiles(), connection);
+        //     } else {
+        //         executeSql(curFile, connection);
+        //         System.out.println("File completed: " + curFile.getName());
+        //     }
+        // }
 
         // executeSql(roleFile, connection);
+        File file = new File(filePath+"/queries/createTables.sql");
+        executeSql(file, connection);
+        file = new File(filePath+"/storedProcedures/insertProcedures.sql");
+        executeSql(file, connection);
+        file = new File(filePath+"/triggers/insertTriggers.sql");
+        executeSql(file, connection);
+        file = new File(filePath+"/queries/dataDistrict.sql");
+        executeSql(file, connection);
+        file = new File(filePath+"/queries/dataStation.sql");
+        executeSql(file, connection);
+        file = new File(filePath+"/queries/dataOfficer.sql");
+        executeSql(file, connection);
+        file = new File(filePath+"/queries/dataCases.sql");
+        executeSql(file, connection);
+        file = new File(filePath+"/queries/dataFIR.sql");
+        executeSql(file, connection);
+        file = new File(filePath+"/queries/dataSuspect.sql");
+        executeSql(file, connection);
+        file = new File(filePath+"/queries/dataCriminal.sql");
+        executeSql(file, connection);
+        file = new File(filePath+"/queries/dataCourtHearing.sql");
+        executeSql(file, connection);
+        file = new File(filePath+"/queries/dataJail.sql");
+        executeSql(file, connection);
+        file = new File(filePath+"/queries/dataJailLog.sql");
+        executeSql(file, connection);
+        file = new File(filePath+"/queries/dataUsers.sql");
+        executeSql(file, connection);
     }
 
     public static void main(String[] args) throws IOException {
@@ -47,7 +75,7 @@ public class DatabaseInit {
         final String DB_URL_1 = "jdbc:postgresql://localhost/postgres";
         final String DB_URL_2 = "jdbc:postgresql://localhost/crime_record_management_system";
         final String USER = "postgres";
-        final String PASSWORD = "postgres";
+        final String PASSWORD = "1234";
 
         try {
             Connection connection_1 = DriverManager.getConnection(DB_URL_1, USER, PASSWORD);
@@ -64,7 +92,7 @@ public class DatabaseInit {
             Connection connection_2 = DriverManager.getConnection(DB_URL_2, USER, PASSWORD);
             System.out.println("Successfully connected to the database: " + DB_URL_2);
 
-            init(files, connection_2);
+            init(files, connection_2, filePath);
             System.out.println("SQL files executed successfully!");
 
             connection_2.close();

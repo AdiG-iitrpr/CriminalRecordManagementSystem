@@ -10,24 +10,24 @@ class App{
 
     static final String JDBC_DRIVER = "org.postgresql.Driver";
     static final String DB_URL = "jdbc:postgresql://localhost/crime_record_management_system";
-    static String USER = "";
-    static String PASSWORD = "";
+    static String USER = "postgres";
+    static String PASSWORD = "1234";
 
     private static void display(){
         System.out.println("Choose your options: ");
-                System.out.println("1. Enter the dashboard for information regarding criminals");
-                System.out.println("2. Information regarding case reporting in various districts.");
-                System.out.println("3. Exit");
+        System.out.println("1. Enter the dashboard for information regarding criminals");
+        System.out.println("2. Information regarding case reporting in various districts.");
+        System.out.println("3. Exit");
     }
 
     private static void checkAuthorization(){
-        System.out.println("Enter userName and password :");
-        Scanner cin = new Scanner(System.in);// use both as postgres for now
-
-        USER = cin.nextLine();
-        PASSWORD = cin.nextLine();
-
-        cin.close();
+        // System.out.println("Enter userName and password :");
+        // Scanner cin = new Scanner(System.in);// use both as postgres for now
+        USER = "postgres";
+        System.out.println("Username : "+USER);
+        PASSWORD = "1234";
+        System.out.println("Password : "+PASSWORD);
+        // cin.close();
 
     }
     public static void main(String [] args){
@@ -42,9 +42,8 @@ class App{
             while(true){
                 
                 display();
-                
                 int option = cin.nextInt();
-
+                cin.nextLine();
                 if(option == 1){
                     CriminalData crimeData = new CriminalData(connection);
                     crimeData.runClass();
