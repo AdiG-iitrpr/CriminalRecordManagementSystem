@@ -66,6 +66,8 @@ public class DatabaseInit {
         executeSql(file, connection);
         file = new File(filePath+"/queries/dataUsers.sql");
         executeSql(file, connection);
+        file = new File(filePath+"/roles/roles.sql");
+        // executeSql(file, connection);
     }
 
     public static void main(String[] args) throws IOException {

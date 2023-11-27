@@ -1,6 +1,7 @@
 import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
@@ -21,6 +22,7 @@ class App{
     }
 
     private static void checkAuthorization(){
+        AdminPortal ap = new AdminPortal();
         System.out.println("Enter userName and password :");
         Scanner cin = new Scanner(System.in);// use both as postgres for now
         USER = cin.nextLine();
@@ -28,7 +30,10 @@ class App{
         PASSWORD = cin.nextLine();
         // System.out.println("Password : "+PASSWORD);
         // cin.close();
-
+        System.out.println("Go to Admin portal? 1 or 0");
+        int ans = cin.nextInt();
+        if(ans==1)ap.runClass(USER, PASSWORD);
+        
     }
     public static void main(String [] args){
 
@@ -49,7 +54,7 @@ class App{
                     crimeData.runClass();
 
                 }else if(option == 2){
-                    // directed to caseData class
+                    // directed to caseData classp
                     CasesData casesData = new CasesData(connection);
                     casesData.runClass();
                 }else if(option == 3){
