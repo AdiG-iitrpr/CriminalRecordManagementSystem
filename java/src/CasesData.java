@@ -15,7 +15,7 @@ public class CasesData {
     }
 
     private void display(){
-        System.out.println("1. Case Information based case-type, date, station, age, gender");
+        System.out.println("1. Case Information based case-type, time, station, age, gender");
         System.out.println("2. Dangerous criminals in district");
         System.out.println("3. Ranking of Districts based on crime rate,Time of incident");
         System.out.println("4. Go back to Main dashboard");
@@ -53,7 +53,7 @@ public class CasesData {
             {
                 Statement stmt = connection.createStatement();
                 System.out.println("Showing number of cases of particular FIR Time...");
-                String sql = "SELECT incident_time, count (*) as num_cases FROM FIR GROUP BY incident_time ";
+                String sql = "SELECT incident_time, count (*) as num_cases FROM FIR GROUP BY incident_time ORDER BY incident_time ";
                 ResultSet rs = stmt.executeQuery(sql);
                 while(rs.next())
                 {

@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS Suspect (
     suspect_name VARCHAR(30),
     suspect_address VARCHAR(40),
     contact VARCHAR(10),
-    gender gen,
+    gender VARCHAR(1),
     age INT
 
 );
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS Criminal (
     suspect_id INT REFERENCES Suspect(suspect_id),
     first_name VARCHAR(30),
     last_name VARCHAR(30),
-    gender gen,
+    gender VARCHAR(1),
     age INT,
     criminal_address VARCHAR(100),
     district VARCHAR(30)
