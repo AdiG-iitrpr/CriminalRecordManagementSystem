@@ -21,12 +21,12 @@ class App{
     }
 
     private static void checkAuthorization(){
-        // System.out.println("Enter userName and password :");
-        // Scanner cin = new Scanner(System.in);// use both as postgres for now
-        USER = "postgres";
-        System.out.println("Username : "+USER);
-        PASSWORD = "1234";
-        System.out.println("Password : "+PASSWORD);
+        System.out.println("Enter userName and password :");
+        Scanner cin = new Scanner(System.in);// use both as postgres for now
+        USER = cin.nextLine();
+        // System.out.println("Username : "+USER);
+        PASSWORD = cin.nextLine();
+        // System.out.println("Password : "+PASSWORD);
         // cin.close();
 
     }
@@ -64,6 +64,6 @@ class App{
             System.out.println(e.getMessage());
         }
 
-        cin.close();
+        // cin.close();
     }
 }

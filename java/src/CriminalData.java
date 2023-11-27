@@ -66,13 +66,13 @@ public class CriminalData {
         int age = sc.nextInt();
         sc.nextLine();
         System.out.println("Enter Criminal Address :");
-        String address = sc.nextLine();
+        String criminal_address = sc.nextLine();
         System.out.println("Enter District :");
         String district = sc.nextLine();
         System.out.println("Enter Jail ID :");
-        int jail_id = sc.nextInt();
+        int jailid = sc.nextInt();
         System.out.println("Enter Case ID :");
-        int case_id = sc.nextInt();
+        int caseid = sc.nextInt();
         System.out.println("Enter the suspect ID :");
         int suspect_id = sc.nextInt();
 
@@ -80,7 +80,7 @@ public class CriminalData {
             
             System.out.println("Inserting records into the table...");  
 
-            String sql = "{call add_criminal(?,?,?,?,?,?,?,?,?)}";
+            String sql = "{CALL add_criminal(?,?,?,?,?,?,?,?,?)}";
             CallableStatement cs = connection.prepareCall(sql);
 
             cs.setString(1, criminal_id);
@@ -88,15 +88,15 @@ public class CriminalData {
             cs.setString(3, last_name);
             cs.setString(4, gender);
             cs.setInt(5, age);
-            cs.setString(6, address);
+            cs.setString(6, criminal_address);
             cs.setString(7, district);
-            cs.setInt(8, case_id);
+            cs.setInt(8, caseid);
             cs.setInt(9, suspect_id);
-            // cs.execute();
+            cs.execute();
 
             sql = "{CALL add_jailLog(?,?)}";
             cs = connection.prepareCall(sql);
-            cs.setInt(1, jail_id);
+            cs.setInt(1, jailid);
             cs.setString(2, criminal_id);
             cs.execute();
 
@@ -104,7 +104,7 @@ public class CriminalData {
         } catch(SQLException e){
             System.err.println(e.getMessage());
         }
-        sc.close();
+        // sc.close();
         return;
         // officer-in-charge must exist
         // case must be filed already 
@@ -135,6 +135,6 @@ public class CriminalData {
             }
         }
 
-        cin.close();
+        // cin.close();
     }
 }

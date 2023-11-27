@@ -131,7 +131,7 @@ public class CasesData {
                 System.err.println(e.getMessage());
             }   
         }
-        sc.close();
+        // sc.close();
 
     }
 
@@ -153,7 +153,7 @@ public class CasesData {
                 System.out.println(", Number of Convictions: " + rs.getString("num_convictions"));
             }
             rs.close();
-            sc.close();
+            // sc.close();
         } catch(SQLException e){
             System.err.println(e.getMessage());
         }
@@ -186,9 +186,10 @@ public class CasesData {
 
     public void runClass(){
 
-        Scanner cin = new Scanner(System.in);
+        
 
         while (true) {
+            Scanner cin = new Scanner(System.in);
             display();
             int option = cin.nextInt();
             cin.nextLine();
@@ -205,8 +206,10 @@ public class CasesData {
             }else {
                 System.out.println("Wrong input");
             }
+
+            // cin.close();
         }
 
-        cin.close();
+        
     }
 }
