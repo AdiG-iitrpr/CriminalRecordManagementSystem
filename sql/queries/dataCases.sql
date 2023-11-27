@@ -1,0 +1,10 @@
+INSERT INTO Cases (case_name, case_status, verdict, crime_description, OfficerID, courtName) VALUES ('Case1', 'ACTIVE', 'PENDING', 'Theft', 1, 'District Court A');
+INSERT INTO Cases (case_name, case_status, verdict, crime_description, OfficerID, courtName) VALUES ('Case2', 'FILED', 'PROVENGUILTY', 'Fraud', 2, 'District Court A');
+INSERT INTO Cases (case_name, case_status, verdict, crime_description, OfficerID, courtName) VALUES ('Case3', 'RUNNING', 'INNOCENT', 'Assault', 3, 'District Court B');
+INSERT INTO Cases (case_name, case_status, verdict, crime_description, OfficerID, courtName) VALUES ('Case4', 'ACTIVE', 'PENDING', 'Burglary', 4, 'District Court B');
+INSERT INTO Cases (case_name, case_status, verdict, crime_description, OfficerID, courtName) VALUES ('Case5', 'FILED', 'PROVENGUILTY', 'Forgery', 5, 'District Court C');
+INSERT INTO Cases (case_name, case_status, verdict, crime_description, OfficerID, courtName) VALUES ('Case6', 'RUNNING', 'INNOCENT', 'Kidnapping', 6, 'District Court C');
+INSERT INTO Cases (case_name, case_status, verdict, crime_description, OfficerID, courtName) VALUES ('Case7', 'ACTIVE', 'PENDING', 'Robbery', 7, 'District Court D');
+INSERT INTO Cases (case_name, case_status, verdict, crime_description, OfficerID, courtName) VALUES ('Case8', 'FILED', 'PROVENGUILTY', 'Drug Trafficking', 8, 'District Court D');
+INSERT INTO Cases (case_name, case_status, verdict, crime_description, OfficerID, courtName) VALUES ('Case9', 'RUNNING', 'INNOCENT', 'Vandalism', 9, 'District Court E');
+INSERT INTO Cases (case_name, case_status, verdict, crime_description, OfficerID, courtName) VALUES ('Case10', 'ACTIVE', 'PENDING', 'Homicide', 10, 'District Court E');

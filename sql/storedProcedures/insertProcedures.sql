@@ -1,27 +1,26 @@
---insertion of criminal (update courtHearing)
-
-
-CREATE OR REPLACE FUNCTION add_criminal (
-    criminalId VARCHAR(5),
-    first_name VARCHAR(30),
-    last_name VARCHAR(30),
-    gender gen,
-    criminal_address VARCHAR(100),
-    district CHAR(30),
-    caseid INT,
-    suspectid INT 
+-- insertion of criminal (update courtHearing)
+CREATE OR REPLACE FUNCTION add_criminal(
+    IN criminal_id VARCHAR(5),
+    IN first_name VARCHAR(30),
+    IN last_name VARCHAR(30),
+    IN gender gen,
+    IN age INT,
+    IN criminal_address VARCHAR(100),
+    IN district VARCHAR(30),
+    IN case_id INT,
+    IN suspect_id INT 
 )
 RETURNS VOID AS $$
     BEGIN
         INSERT INTO Criminal 
-        VALUES(criminal_id,first_name,last_name,gender,criminal_address,district);
+        VALUES(criminal_id,suspect_id,first_name,last_name,gender,age,criminal_address,district);
         
         INSERT INTO courtHearing 
-        VALUES(case_id,suspect_id,CURRENT_DATE, 'PROVENGUILTY');
+        VALUES(case_id,suspect_id,CURRENT_DATE, 'GUILTY');
         
         UPDATE Cases
         SET verdict = 'PROVENGUILTY'
-        WHERE case_id = caseid;
+        WHERE case_id = case_id;
     END;
 $$ LANGUAGE plpgsql;
 

@@ -1,7 +1,7 @@
 --contact details of suspect --
 
 CREATE OR REPLACE FUNCTION checkContact()
-RETURN TRIGGER AS $$
+RETURNS TRIGGER AS $$
     BEGIN
         IF LENGTH(new.contact) <> 10 THEN
             RAISE EXCEPTION 'Invalid "contact" length: "%"', new.contact
@@ -18,7 +18,7 @@ RETURN TRIGGER AS $$
     END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER
+CREATE TRIGGER checkcontact
 BEFORE INSERT OR UPDATE ON Suspect 
 FOR EACH ROW EXECUTE PROCEDURE checkContact();
 
@@ -29,7 +29,6 @@ FOR EACH ROW EXECUTE PROCEDURE checkContact();
 CREATE OR REPLACE FUNCTION checkAvailability() 
 RETURNS TRIGGER AS $$
 BEGIN 
-    IF 
     IF NOT EXISTS (
         SELECT 1
         FROM Jail
