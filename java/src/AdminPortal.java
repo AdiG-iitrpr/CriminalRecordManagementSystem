@@ -26,8 +26,8 @@ public class AdminPortal {
             try(Statement statement = connection.createStatement()){
                 statement.executeUpdate(sql);
             }
-            sql = "ALTER USER "+name+" SET ROLE "+role;
-            // sql = "GRANT "+role+" TO "+name;
+            // sql = "ALTER USER "+name+" SET ROLE "+role;
+            sql = "GRANT "+role+" TO "+name;
             System.out.println(sql);
             try(Statement statement = connection.createStatement()){
                 statement.executeUpdate(sql);
