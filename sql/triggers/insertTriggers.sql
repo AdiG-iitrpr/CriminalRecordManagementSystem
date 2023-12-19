@@ -1,7 +1,7 @@
 --contact details of suspect --
 
 CREATE OR REPLACE FUNCTION checkContact()
-RETURN TRIGGER AS $$
+RETURNS TRIGGER AS $$
     BEGIN
         IF LENGTH(new.contact) <> 10 THEN
             RAISE EXCEPTION 'Invalid "contact" length: "%"', new.contact
@@ -18,34 +18,10 @@ RETURN TRIGGER AS $$
     END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER
+CREATE TRIGGER checkcontact
 BEFORE INSERT OR UPDATE ON Suspect 
 FOR EACH ROW EXECUTE PROCEDURE checkContact();
 
-
--- insertion of Criminal (check status in courtHearing)
-
-CREATE OR REPLACE FUNCTION verifySuspect() 
-RETURNS TRIGGER AS $$
-BEGIN 
-    IF EXISTS (
-        SELECT 1
-        FROM courtHearing ch
-        JOIN Cases c ON ch.case_id = c.case_id
-        WHERE ch.suspect_id = NEW.suspect_id AND c.verdict = 'PROVENGUILTY'
-    ) THEN
-        RETURN NEW;
-    ELSE
-        RAISE EXCEPTION 'Cannot insert/update Criminal without valid suspect_id related to a PROVENGUILTY case';
-    END IF;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER checkCaseStatus
-BEFORE INSERT OR UPDATE ON Criminal
-FOR EACH ROW
-EXECUTE FUNCTION verifySuspect();
 
 
 -- check if capacity is full or not in jail 
@@ -53,7 +29,6 @@ EXECUTE FUNCTION verifySuspect();
 CREATE OR REPLACE FUNCTION checkAvailability() 
 RETURNS TRIGGER AS $$
 BEGIN 
-    IF 
     IF NOT EXISTS (
         SELECT 1
         FROM Jail
